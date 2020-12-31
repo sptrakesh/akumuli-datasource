@@ -229,11 +229,11 @@ export class AkumuliQueryCtrl extends QueryCtrl {
     }
 
     if (this.target.pivotTags && _.has(this.target.pivotTags, this.target.currentPivotTagKey)) {
-      errs.tags = "Duplicate tag key '" + this.target.currentPivotTagKey + "'.";
+      errs.tags = "Duplicate pivot tag key '" + this.target.currentPivotTagKey + "'.";
     }
 
     if (this.target.groupTags && _.has(this.target.groupTags, this.target.currentGroupTagKey)) {
-      errs.tags = "Duplicate tag key '" + this.target.currentGroupTagKey + "'.";
+      errs.tags = "Duplicate group tag key '" + this.target.currentGroupTagKey + "'.";
     }
 
     return errs;

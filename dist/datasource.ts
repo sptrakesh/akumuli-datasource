@@ -325,6 +325,7 @@ class AkumuliDatasource {
       _.forEach(Object.keys(target.tags), key => {
         var value = target.tags[key];
         value = this.templateSrv.replace(value);
+        value = value.replace("+", "__#SPACE#__");
         if (value.lastIndexOf(" ") > 0) {
           var lst = value.split(" ");
           var outlst = [];
@@ -349,6 +350,7 @@ class AkumuliDatasource {
       var items = kvpair.split("=");
       var key = items[0];
       var value = this.templateSrv.replace(items[1]);
+      value = value.replace( "__#SPACE#__", "+");
       tags[key] = value;
     });
     return tags;

@@ -295,6 +295,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                         lodash_1.default.forEach(lines, function (line) {
                             if (line) {
                                 var name = fixed + line.substr(1);
+                                name = name.replace("__#SPACE#__", "+");
                                 data.push({ text: name, value: name });
                             }
                         });

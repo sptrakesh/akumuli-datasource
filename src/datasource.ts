@@ -296,6 +296,7 @@ class AkumuliDatasource {
       _.forEach(lines, line => {
         if (line) {
           var name = fixed + line.substr(1);
+          name = name.replace( "__#SPACE#__", "+");
           data.push({text: name, value: name});
         }
       });

@@ -295,7 +295,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                         lodash_1.default.forEach(lines, function (line) {
                             if (line) {
                                 var name = fixed + line.substr(1);
-                                name = name.replace("__#SPACE#__", "+");
+                                name = name.replace(/__#SPACE#__/g, "+");
                                 data.push({ text: name, value: name });
                             }
                         });
@@ -313,7 +313,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                 };
                 AkumuliDatasource.prototype.formatTagValue = function (value) {
                     if (typeof value === 'string') {
-                        return value.replace("__#SPACE#__", "+");
+                        return value.replace(/__#SPACE#__/g, "+");
                     }
                     return value.join(" ");
                 };
@@ -324,7 +324,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                         lodash_1.default.forEach(Object.keys(target.tags), function (key) {
                             var value = target.tags[key];
                             value = _this.templateSrv.replace(value);
-                            value = value.replace("+", "__#SPACE#__");
+                            value = value.replace(/\+/g, "__#SPACE#__");
                             if (value.lastIndexOf(" ") > 0) {
                                 var lst = value.split(" ");
                                 var outlst = [];
@@ -350,7 +350,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                         var items = kvpair.split("=");
                         var key = items[0];
                         var value = _this.templateSrv.replace(items[1]);
-                        value = value.replace("__#SPACE#__", "+");
+                        value = value.replace(/__#SPACE#__/g, "+");
                         tags[key] = value;
                     });
                     return tags;

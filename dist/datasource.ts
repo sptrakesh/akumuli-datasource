@@ -108,7 +108,7 @@ class AkumuliDatasource {
       if (tags.length < 2) {
         // This shouldn't happen since series name should
         // contain a metric name and at least one tag.
-        throw `bad metric name received ${name}`;
+        throw "bad metric name received";
       }
       var tagset = {};
       for (var i = 1; i < tags.length; i++) {
@@ -296,7 +296,7 @@ class AkumuliDatasource {
       _.forEach(lines, line => {
         if (line) {
           var name = fixed + line.substr(1);
-          name = name.replace(/__#SPACE#__/g, "+");
+          name = name.replace( "__#SPACE#__", "+");
           data.push({text: name, value: name});
         }
       });
@@ -315,7 +315,7 @@ class AkumuliDatasource {
 
   formatTagValue(value) {
     if (typeof value === 'string') {
-      return value.replace( /__#SPACE#__/g, "+");
+      return value;
     }
     return value.join(" ");
   }
@@ -326,7 +326,7 @@ class AkumuliDatasource {
       _.forEach(Object.keys(target.tags), key => {
         var value = target.tags[key];
         value = this.templateSrv.replace(value);
-        value = value.replace(/\\+/g, "__#SPACE#__");
+        value = value.replace("+", "__#SPACE#__");
         if (value.lastIndexOf(" ") > 0) {
           var lst = value.split(" ");
           var outlst = [];
@@ -351,7 +351,7 @@ class AkumuliDatasource {
       var items = kvpair.split("=");
       var key = items[0];
       var value = this.templateSrv.replace(items[1]);
-      value = value.replace(/__#SPACE#__/g, "+");
+      value = value.replace( "__#SPACE#__", "+");
       tags[key] = value;
     });
     return tags;

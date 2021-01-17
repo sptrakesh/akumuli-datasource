@@ -116,7 +116,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                         if (tags.length < 2) {
                             // This shouldn't happen since series name should
                             // contain a metric name and at least one tag.
-                            throw "bad metric name received " + name;
+                            throw "bad metric name received";
                         }
                         var tagset = {};
                         for (var i = 1; i < tags.length; i++) {
@@ -295,7 +295,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                         lodash_1.default.forEach(lines, function (line) {
                             if (line) {
                                 var name = fixed + line.substr(1);
-                                name = name.replace(/__#SPACE#__/g, "+");
+                                name = name.replace("__#SPACE#__", "+");
                                 data.push({ text: name, value: name });
                             }
                         });
@@ -313,7 +313,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                 };
                 AkumuliDatasource.prototype.formatTagValue = function (value) {
                     if (typeof value === 'string') {
-                        return value.replace(/__#SPACE#__/g, "+");
+                        return value;
                     }
                     return value.join(" ");
                 };
@@ -324,7 +324,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                         lodash_1.default.forEach(Object.keys(target.tags), function (key) {
                             var value = target.tags[key];
                             value = _this.templateSrv.replace(value);
-                            value = value.replace(/\\+/g, "__#SPACE#__");
+                            value = value.replace("+", "__#SPACE#__");
                             if (value.lastIndexOf(" ") > 0) {
                                 var lst = value.split(" ");
                                 var outlst = [];
@@ -350,7 +350,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                         var items = kvpair.split("=");
                         var key = items[0];
                         var value = _this.templateSrv.replace(items[1]);
-                        value = value.replace(/__#SPACE#__/g, "+");
+                        value = value.replace("__#SPACE#__", "+");
                         tags[key] = value;
                     });
                     return tags;

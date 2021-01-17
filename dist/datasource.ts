@@ -315,7 +315,7 @@ class AkumuliDatasource {
 
   formatTagValue(value) {
     if (typeof value === 'string') {
-      return value;
+      return value.replace( "__#SPACE#__", "+");
     }
     return value.join(" ");
   }

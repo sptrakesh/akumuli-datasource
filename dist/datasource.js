@@ -313,7 +313,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                 };
                 AkumuliDatasource.prototype.formatTagValue = function (value) {
                     if (typeof value === 'string') {
-                        return value;
+                        return value.replace("__#SPACE#__", "+");
                     }
                     return value.join(" ");
                 };

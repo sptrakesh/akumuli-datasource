@@ -102,7 +102,25 @@ class AkumuliDatasource {
 
   /** Parse series name in a canonical form */
   extractTags(names) {
-    var where = [];
+    const where = [];
+    for (const name of names) {
+      const tags = name.split(' ');
+      if (tags.length < 2) {
+        // This shouldn't happen since series name should
+        // contain a metric name and at least one tag.
+        // throw "bad metric name received";
+        continue;
+      }
+      const tagset = {};
+      for (let i = 1; i < tags.length; i++) {
+        const kv = tags[i].split('=');
+        const tag = kv[0];
+        const value = kv[1];
+        tagset[tag] = value.replace(/__#SPACE#__/g, "+");
+      }
+      where.push(tagset);
+    }
+    /*
     _.forEach(names, name => {
       var tags = name.split(' ');
       if (tags.length < 2) {
@@ -119,6 +137,7 @@ class AkumuliDatasource {
       }
       where.push(tagset);
     });
+     */
     return where;
   }
 
@@ -296,7 +315,7 @@ class AkumuliDatasource {
       _.forEach(lines, line => {
         if (line) {
           var name = fixed + line.substr(1);
-          name = name.replace( "__#SPACE#__", "+");
+          name = name.replace(/__#SPACE#__/g, "+");
           data.push({text: name, value: name});
         }
       });
@@ -326,7 +345,7 @@ class AkumuliDatasource {
       _.forEach(Object.keys(target.tags), key => {
         var value = target.tags[key];
         value = this.templateSrv.replace(value);
-        value = value.replace("+", "__#SPACE#__");
+        value = value.replace(/\+/g, "__#SPACE#__");
         if (value.lastIndexOf(" ") > 0) {
           var lst = value.split(" ");
           var outlst = [];
@@ -351,7 +370,7 @@ class AkumuliDatasource {
       var items = kvpair.split("=");
       var key = items[0];
       var value = this.templateSrv.replace(items[1]);
-      value = value.replace( "__#SPACE#__", "+");
+      value = value.replace(/__#SPACE#__/g, "+");
       tags[key] = value;
     });
     return tags;

@@ -111,22 +111,42 @@ System.register(['lodash', "moment"], function(exports_1) {
                 /** Parse series name in a canonical form */
                 AkumuliDatasource.prototype.extractTags = function (names) {
                     var where = [];
-                    lodash_1.default.forEach(names, function (name) {
-                        var tags = name.split(' ');
+                    for (var _i = 0; _i < names.length; _i++) {
+                        var name_1 = names[_i];
+                        var tags = name_1.split(' ');
                         if (tags.length < 2) {
                             // This shouldn't happen since series name should
                             // contain a metric name and at least one tag.
-                            throw "bad metric name received";
+                            // throw "bad metric name received";
+                            continue;
                         }
                         var tagset = {};
                         for (var i = 1; i < tags.length; i++) {
                             var kv = tags[i].split('=');
                             var tag = kv[0];
                             var value = kv[1];
-                            tagset[tag] = value;
+                            tagset[tag] = value.replace(/__#SPACE#__/g, "+");
                         }
                         where.push(tagset);
+                    }
+                    /*
+                    _.forEach(names, name => {
+                      var tags = name.split(' ');
+                      if (tags.length < 2) {
+                        // This shouldn't happen since series name should
+                        // contain a metric name and at least one tag.
+                        throw "bad metric name received";
+                      }
+                      var tagset = {};
+                      for (var i = 1; i < tags.length; i++) {
+                        var kv = tags[i].split('=');
+                        var tag = kv[0];
+                        var value = kv[1];
+                        tagset[tag] = value;
+                      }
+                      where.push(tagset);
                     });
+                     */
                     return where;
                 };
                 // Convert series name into alias using the alias template
@@ -295,7 +315,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                         lodash_1.default.forEach(lines, function (line) {
                             if (line) {
                                 var name = fixed + line.substr(1);
-                                name = name.replace("__#SPACE#__", "+");
+                                name = name.replace(/__#SPACE#__/g, "+");
                                 data.push({ text: name, value: name });
                             }
                         });
@@ -324,7 +344,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                         lodash_1.default.forEach(Object.keys(target.tags), function (key) {
                             var value = target.tags[key];
                             value = _this.templateSrv.replace(value);
-                            value = value.replace("+", "__#SPACE#__");
+                            value = value.replace(/\+/g, "__#SPACE#__");
                             if (value.lastIndexOf(" ") > 0) {
                                 var lst = value.split(" ");
                                 var outlst = [];
@@ -350,7 +370,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                         var items = kvpair.split("=");
                         var key = items[0];
                         var value = _this.templateSrv.replace(items[1]);
-                        value = value.replace("__#SPACE#__", "+");
+                        value = value.replace(/__#SPACE#__/g, "+");
                         tags[key] = value;
                     });
                     return tags;

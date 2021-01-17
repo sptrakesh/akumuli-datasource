@@ -326,7 +326,7 @@ class AkumuliDatasource {
       _.forEach(Object.keys(target.tags), key => {
         var value = target.tags[key];
         value = this.templateSrv.replace(value);
-        value = value.replace(/\+/g, "__#SPACE#__");
+        value = value.replace(/\\+/g, "__#SPACE#__");
         if (value.lastIndexOf(" ") > 0) {
           var lst = value.split(" ");
           var outlst = [];

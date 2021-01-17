@@ -324,7 +324,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                         lodash_1.default.forEach(Object.keys(target.tags), function (key) {
                             var value = target.tags[key];
                             value = _this.templateSrv.replace(value);
-                            value = value.replace(/\+/g, "__#SPACE#__");
+                            value = value.replace(/\\+/g, "__#SPACE#__");
                             if (value.lastIndexOf(" ") > 0) {
                                 var lst = value.split(" ");
                                 var outlst = [];

@@ -116,7 +116,7 @@ System.register(['lodash', "moment"], function(exports_1) {
                         if (tags.length < 2) {
                             // This shouldn't happen since series name should
                             // contain a metric name and at least one tag.
-                            throw "bad metric name received";
+                            throw "bad metric name received " + name;
                         }
                         var tagset = {};
                         for (var i = 1; i < tags.length; i++) {
